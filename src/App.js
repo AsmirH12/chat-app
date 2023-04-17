@@ -42,7 +42,8 @@ function HomePage() {
 
   return (
     <>
-      <h1>Home Page</h1>
+      <h1 className="current-room-indicator">{currentRoom}</h1>
+      <hr></hr>
       <SideBar setRoomIdentifier={setCurrentRoom} />
       <Room identifier={currentRoom} />
     </>
@@ -51,15 +52,79 @@ function HomePage() {
 
 function SideBar({ setRoomIdentifier }) {
   const query = roomsRef.orderBy("createdAt");
-  const [rooms] = useCollectionData(query);
+  const [rooms] = useCollectionData(query, { idField: "id" });
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [newRoomName, setNewRoomName] = useState("");
+  const [doesRoomExist, setDoesRoomExist] = useState(false);
+
+  const openCreateRoomModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleNewRoomCancel = () => {
+    setIsModalOpen(false);
+    setNewRoomName("");
+    setDoesRoomExist(false);
+  };
+
+  const handleNewRoomSubmit = async (e) => {
+    e.preventDefault();
+    // Check if already exists
+    const doc = await roomsRef.doc(newRoomName).get();
+    if (doc.exists) {
+      setDoesRoomExist(true);
+    } else {
+      await roomsRef.doc(newRoomName).set({
+        name: newRoomName,
+        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+      });
+      setIsModalOpen(false);
+      setDoesRoomExist(false);
+      setNewRoomName("");
+    }
+  };
+
   return (
     <>
-      {rooms &&
-        rooms.map((room) => (
-          <button onClick={() => setRoomIdentifier(room.name)}>
-            {room.name}
-          </button>
-        ))}
+      <div className="rooms">
+        {rooms &&
+          rooms.map((room) => (
+            <button
+              className="room-button"
+              onClick={() => setRoomIdentifier(room.name)}
+              key={room.name}
+            >
+              {room.name}
+            </button>
+          ))}
+        <button className="create-room" onClick={openCreateRoomModal}>
+          Create Room
+        </button>
+      </div>
+
+      {isModalOpen && (
+        <form className="create-room-modal" onSubmit={handleNewRoomSubmit}>
+          <div class="room-name">
+            <label>Room Name: </label>
+            <input
+              type="text"
+              value={newRoomName}
+              onChange={(event) => setNewRoomName(event.target.value)}
+            />
+          </div>
+          <div>
+            <button type="submit">Create</button>
+          </div>
+          <div>
+            <button type="button" onClick={handleNewRoomCancel}>
+              Cancel
+            </button>
+          </div>
+          {doesRoomExist && (
+            <p className="room-exist-error">That room already exists</p>
+          )}
+        </form>
+      )}
     </>
   );
 }
@@ -93,11 +158,18 @@ function Room({ identifier }) {
 
   return (
     <>
-      {messages && messages.map((message) => <p>{message.text}</p>)}
+      {messages &&
+        messages.map((msg) => (
+          <Message
+            key={msg.id}
+            message={msg}
+            author={auth.currentUser.displayName}
+          />
+        ))}
       <span ref={bottomPos}></span>
-
-      <form onSubmit={sendMessage}>
+      <form className="message-form" onSubmit={sendMessage}>
         <input
+          className="message-input"
           value={formValue}
           onChange={(e) => setFormValue(e.target.value)}
           placeholder="Message..."
@@ -119,8 +191,9 @@ function Message(props) {
   return (
     <>
       <div className={`message ${messageClass}`}>
+        <p>{props.author}</p>
         <img src={photoURL || "https://i.stack.imgur.com/34AD2.jpg"} />
-        <p>{text}</p>
+        <p className="message-text">{text}</p>
       </div>
     </>
   );
@@ -134,9 +207,12 @@ function SignIn() {
 
   return (
     <>
-      <button className="sign-in" onClick={signInWithGoogle}>
-        Sign in with Google
-      </button>
+      <div className="sign-in-container">
+        <h1>Welcome to Asmir's Chat App!</h1>
+        <button className="sign-in" onClick={signInWithGoogle}>
+          Sign in with Google
+        </button>
+      </div>
     </>
   );
 }

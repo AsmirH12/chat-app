@@ -1,20 +1,18 @@
+* {
+  box-sizing: border-box;
+}
+
 body {
   background-color: white;
+  padding-left: 15vw;
+  padding-bottom: 10vh;
 }
 
 .App {
   text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+  margin: 0 auto;
+  position: relative;
+  background-color: white;
 }
 
 .App-header {
@@ -27,15 +25,172 @@ body {
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+/* Sign in and Sign out */
+.sign-in,
+.sign-out {
+  font-family: "Segoe UI";
+  background-color: #4287f5;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-weight: 500;
+  border-radius: 5px;
+  transition: opacity 0.2s;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.sign-in:hover,
+.sign-out:hover {
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+.sign-in {
+  margin-top: 20px;
+}
+
+.sign-out {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+}
+
+.sign-in-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.sign-in-container h1 {
+  margin-top: 0;
+}
+
+/* Homepage */
+.current-room-indicator {
+  margin-top: 0;
+  padding-top: 20px;
+}
+
+/* Sidebar */
+.rooms {
+  display: flex;
+  flex-direction: column;
+  width: 15vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  overflow-y: auto;
+  height: 100%;
+}
+
+.room-button,
+.create-room {
+  background-color: #4287f5;
+  border: 1px solid rgba(198, 198, 198, 0.377);
+  font-family: "Segoe UI";
+  font-weight: 600;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  margin-top: -1px;
+  color: white;
+}
+
+.create-room {
+  background-color: #3670cc;
+}
+
+.room-button:hover,
+.create-room:hover {
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+/* Create room modal */
+.create-room-modal {
+  position: fixed;
+  z-index: 9999;
+  height: 50vh;
+  width: 50vh;
+  background-color: white;
+  border-radius: 10px;
+  border: 1px solid rgba(198, 198, 198, 0.377);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.room-name {
+  margin-top: 30px;
+}
+
+.room-exist-error {
+  color: red;
+}
+
+/* Messages */
+.message {
+  display: flex;
+  align-items: center;
+}
+
+.received {
+  margin-left: 10px;
+}
+
+.sent {
+  flex-direction: row-reverse;
+  margin-right: 10px;
+}
+
+.sent .message-text {
+  color: white;
+  background: #0b93f6;
+  align-self: flex-end;
+}
+
+.received .message-text {
+  background: #e5e5ea;
+  color: black;
+}
+
+.message img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin: 2px 5px;
+}
+
+.message .p,
+.message .message-text {
+  max-width: 500px;
+  margin-bottom: 12px;
+  line-height: 24px;
+  padding: 10px 20px;
+  border-radius: 25px;
+  position: relative;
+  color: white;
+  text-align: center;
+}
+
+/* Input Bar */
+.message-form {
+  position: fixed;
+  bottom: 0;
+  width: 80vw;
+  display: flex;
+}
+
+.message-input,
+.message-form button {
+  height: 10vh;
+}
+
+.message-input {
+  width: 100%;
+  font-size: 1.5rem;
+}
+
+.message-form button {
+  width: 10vw;
 }
