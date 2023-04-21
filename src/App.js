@@ -38,15 +38,15 @@ function App() {
 }
 
 function HomePage() {
-  const [currentRoom, setCurrentRoom] = useState("Sports");
+  const [currentRoom, setCurrentRoom] = useState("Sports"); // fix this
 
   return (
-    <>
+    <div className="homepage">
       <h1 className="current-room-indicator">{currentRoom}</h1>
       <hr></hr>
       <SideBar setRoomIdentifier={setCurrentRoom} />
       <Room identifier={currentRoom} />
-    </>
+    </div>
   );
 }
 
@@ -70,12 +70,12 @@ function SideBar({ setRoomIdentifier }) {
   const handleNewRoomSubmit = async (e) => {
     e.preventDefault();
     // Check if already exists
-    const doc = await roomsRef.doc(newRoomName).get();
+    const doc = await roomsRef.doc(newRoomName.trim()).get();
     if (doc.exists) {
       setDoesRoomExist(true);
     } else {
       await roomsRef.doc(newRoomName).set({
-        name: newRoomName,
+        name: newRoomName.trim(),
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       });
       setIsModalOpen(false);
@@ -85,8 +85,11 @@ function SideBar({ setRoomIdentifier }) {
   };
 
   return (
-    <>
+    <div className="sidebar">
       <div className="rooms">
+        <div className="rooms-header">
+          <h1>Rooms</h1>
+        </div>
         {rooms &&
           rooms.map((room) => (
             <button
@@ -98,7 +101,7 @@ function SideBar({ setRoomIdentifier }) {
             </button>
           ))}
         <button className="create-room" onClick={openCreateRoomModal}>
-          Create Room
+          <img src="plus-sign.png"></img>
         </button>
       </div>
 
@@ -125,7 +128,7 @@ function SideBar({ setRoomIdentifier }) {
           )}
         </form>
       )}
-    </>
+    </div>
   );
 }
 
@@ -144,12 +147,14 @@ function Room({ identifier }) {
     e.preventDefault();
 
     const { uid, photoURL } = auth.currentUser;
+    const displayName = auth.currentUser.displayName;
 
     await messagesRef.add({
       text: formValue,
       createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       uid,
       photoURL,
+      displayName,
     });
 
     setFormValue("");
@@ -158,15 +163,14 @@ function Room({ identifier }) {
 
   return (
     <>
-      {messages &&
-        messages.map((msg) => (
-          <Message
-            key={msg.id}
-            message={msg}
-            author={auth.currentUser.displayName}
-          />
-        ))}
-      <span ref={bottomPos}></span>
+      <div className="message-area">
+        {messages &&
+          messages.map((msg) => (
+            <Message key={msg.id} message={msg} author={msg.displayName} />
+          ))}
+        <span ref={bottomPos}></span>
+      </div>
+
       <form className="message-form" onSubmit={sendMessage}>
         <input
           className="message-input"

@@ -1,11 +1,16 @@
+/* General */
+
+/*message area is 80vw x 90vh*/
 * {
   box-sizing: border-box;
 }
 
 body {
   background-color: white;
-  padding-left: 15vw;
-  padding-bottom: 10vh;
+}
+
+div {
+  z-index: 100;
 }
 
 .App {
@@ -67,16 +72,30 @@ body {
 }
 
 /* Homepage */
+.homepage {
+  margin-left: 20vw;
+  margin-bottom: 10vh;
+}
+
 .current-room-indicator {
   margin-top: 0;
   padding-top: 20px;
 }
 
 /* Sidebar */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 20vw;
+  background-color: #4287f5;
+}
+
 .rooms {
   display: flex;
   flex-direction: column;
-  width: 15vw;
+  width: 20vw;
   position: fixed;
   top: 0;
   left: 0;
@@ -84,8 +103,15 @@ body {
   height: 100%;
 }
 
+.rooms h1 {
+  color: white;
+  margin: 0;
+  padding: 0;
+}
+
 .room-button,
-.create-room {
+.create-room,
+.rooms-header {
   background-color: #4287f5;
   border: 1px solid rgba(198, 198, 198, 0.377);
   font-family: "Segoe UI";
@@ -96,8 +122,22 @@ body {
   color: white;
 }
 
+.rooms-header {
+  background-color: #3670cc;
+  padding: 20px 0;
+}
+
 .create-room {
   background-color: #3670cc;
+  padding: 30px 0;
+}
+
+.create-room img {
+  width: 30px;
+  height: 30px;
+  object-fit: cover;
+  margin: 0;
+  padding: 0;
 }
 
 .room-button:hover,
@@ -109,15 +149,33 @@ body {
 /* Create room modal */
 .create-room-modal {
   position: fixed;
-  z-index: 9999;
-  height: 50vh;
-  width: 50vh;
-  background-color: white;
+  height: 50vmin;
+  width: 50vmin;
+  background-color: rgba(82, 255, 194, 1);
   border-radius: 10px;
   border: 1px solid rgba(198, 198, 198, 0.377);
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  margin-top: -25vmin;
+  margin-left: -25vmin;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
+
+.create-room-modal button {
+  background-color: #4287f5;
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  padding: 15px 25px;
+}
+
+.create-room-modal button:hover {
+  cursor: pointer;
+  opacity: 0.5;
 }
 
 .room-name {
@@ -129,6 +187,9 @@ body {
 }
 
 /* Messages */
+.message-area {
+}
+
 .message {
   display: flex;
   align-items: center;
@@ -147,11 +208,16 @@ body {
   color: white;
   background: #0b93f6;
   align-self: flex-end;
+  word-wrap: break-word;
+  hyphens: auto;
 }
 
 .received .message-text {
-  background: #e5e5ea;
+  color: white;
+  background: #e342f5;
   color: black;
+  word-wrap: break-word;
+  hyphens: auto;
 }
 
 .message img {
@@ -165,6 +231,7 @@ body {
 .message .message-text {
   max-width: 500px;
   margin-bottom: 12px;
+  font-size: inherit;
   line-height: 24px;
   padding: 10px 20px;
   border-radius: 25px;
@@ -179,6 +246,7 @@ body {
   bottom: 0;
   width: 80vw;
   display: flex;
+  margin-bottom: 10px;
 }
 
 .message-input,
@@ -189,8 +257,28 @@ body {
 .message-input {
   width: 100%;
   font-size: 1.5rem;
+  background-color: rgba(217, 217, 217);
+  border: none;
+  border-radius: 30px;
+  margin-left: 10px;
+  margin-right: 10px;
+  padding-left: 10px;
+  font-family: "Segoe UI";
 }
 
 .message-form button {
   width: 10vw;
+  margin-right: calc(20px + 10px);
+  font-size: 100%;
+  border: none;
+  border-radius: 20px;
+  background-color: #3670cc;
+}
+
+.message-form button:disabled {
+  opacity: 0.5;
+}
+
+.message-form button:hover {
+  cursor: pointer;
 }
