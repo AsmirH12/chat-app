@@ -38,6 +38,8 @@ function App() {
 }
 
 function HomePage() {
+  //const query = roomsRef.orderBy("createdAt");
+  //const [rooms] = useCollectionData(query);
   const [currentRoom, setCurrentRoom] = useState("Sports"); // fix this
 
   return (
@@ -87,9 +89,11 @@ function SideBar({ setRoomIdentifier }) {
   return (
     <div className="sidebar">
       <div className="rooms">
-        <div className="rooms-header">
-          <h1>Rooms</h1>
-        </div>
+        <button className="create-room" onClick={openCreateRoomModal}>
+          <img src="plus.png"></img>
+
+          <p>New room</p>
+        </button>
         {rooms &&
           rooms.map((room) => (
             <button
@@ -100,9 +104,6 @@ function SideBar({ setRoomIdentifier }) {
               {room.name}
             </button>
           ))}
-        <button className="create-room" onClick={openCreateRoomModal}>
-          <img src="plus-sign.png"></img>
-        </button>
       </div>
 
       {isModalOpen && (
@@ -195,9 +196,13 @@ function Message(props) {
   return (
     <>
       <div className={`message ${messageClass}`}>
-        <p>{props.author}</p>
-        <img src={photoURL || "https://i.stack.imgur.com/34AD2.jpg"} />
-        <p className="message-text">{text}</p>
+        <div>
+          <img src={photoURL || "https://i.stack.imgur.com/34AD2.jpg"} />
+        </div>
+        <div className="message-vertical">
+          <p>{props.author}</p>
+          <p className="message-text">{text}</p>
+        </div>
       </div>
     </>
   );

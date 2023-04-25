@@ -1,6 +1,7 @@
 /* General */
 
-/*message area is 80vw x 90vh*/
+/*message area is 80vw x 90vh for desktop*/
+/* 70vw x 90vh for mobile*/
 * {
   box-sizing: border-box;
 }
@@ -71,15 +72,19 @@ div {
   margin-top: 0;
 }
 
-/* Homepage */
+/* General Homepage */
 .homepage {
   margin-left: 20vw;
-  margin-bottom: 10vh;
+  margin-bottom: calc(10vh + 10px);
 }
 
 .current-room-indicator {
   margin-top: 0;
   padding-top: 20px;
+}
+
+.homepage hr {
+  border: 1px solid rgba(142, 142, 142, 0.264);
 }
 
 /* Sidebar */
@@ -100,7 +105,7 @@ div {
   top: 0;
   left: 0;
   overflow-y: auto;
-  height: 100%;
+  height: 100%; /* for scrollbar */
 }
 
 .rooms h1 {
@@ -110,14 +115,13 @@ div {
 }
 
 .room-button,
-.create-room,
-.rooms-header {
+.create-room {
   background-color: #4287f5;
   border: 1px solid rgba(198, 198, 198, 0.377);
   font-family: "Segoe UI";
   font-weight: 600;
-  padding-top: 40px;
-  padding-bottom: 40px;
+  padding-top: 30px;
+  padding-bottom: 30px;
   margin-top: -1px;
   color: white;
 }
@@ -129,7 +133,16 @@ div {
 
 .create-room {
   background-color: #3670cc;
-  padding: 30px 0;
+  padding: 3.5px 0;
+  font-size: 20px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 97%;
+  border-radius: 10px;
+  margin: 8px auto;
+  position: sticky;
 }
 
 .create-room img {
@@ -138,6 +151,7 @@ div {
   object-fit: cover;
   margin: 0;
   padding: 0;
+  margin-right: 20px;
 }
 
 .room-button:hover,
@@ -151,9 +165,10 @@ div {
   position: fixed;
   height: 50vmin;
   width: 50vmin;
-  background-color: rgba(82, 255, 194, 1);
+  /*background-color: rgba(82, 255, 194, 1);*/
+  background-color: rgb(236, 236, 236);
   border-radius: 10px;
-  border: 1px solid rgba(198, 198, 198, 0.377);
+  border: 3px solid rgba(198, 198, 198, 0.377);
   top: 50%;
   left: 50%;
   margin-top: -25vmin;
@@ -188,11 +203,14 @@ div {
 
 /* Messages */
 .message-area {
+  max-width: 80vw;
+  margin-left: 10px;
 }
 
 .message {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
+  word-wrap: break-word;
 }
 
 .received {
@@ -208,16 +226,11 @@ div {
   color: white;
   background: #0b93f6;
   align-self: flex-end;
-  word-wrap: break-word;
-  hyphens: auto;
 }
 
 .received .message-text {
   color: white;
   background: #e342f5;
-  color: black;
-  word-wrap: break-word;
-  hyphens: auto;
 }
 
 .message img {
@@ -231,13 +244,22 @@ div {
 .message .message-text {
   max-width: 500px;
   margin-bottom: 12px;
-  font-size: inherit;
   line-height: 24px;
   padding: 10px 20px;
   border-radius: 25px;
   position: relative;
   color: white;
   text-align: center;
+  word-break: break-word;
+  hyphens: auto;
+}
+
+.received .message-vertical {
+  text-align: left;
+}
+
+.sent .message-vertical {
+  text-align: right;
 }
 
 /* Input Bar */
@@ -247,6 +269,7 @@ div {
   width: 80vw;
   display: flex;
   margin-bottom: 10px;
+  z-index: 99999;
 }
 
 .message-input,
@@ -281,4 +304,39 @@ div {
 
 .message-form button:hover {
   cursor: pointer;
+}
+
+@media screen and (max-width: 700px) {
+  .homepage {
+    margin-left: 30vw;
+  }
+
+  .sidebar {
+    width: 30vw;
+  }
+
+  .message-area {
+    max-width: 70vw;
+  }
+
+  .rooms {
+    width: 30vw;
+  }
+
+  .create-room-modal {
+    left: 60%;
+  }
+
+  .message-form {
+    width: 70vw;
+  }
+
+  .message .p,
+  .message .message-text {
+    font-size: 15px;
+  }
+
+  .message-form button {
+    width: 15vw;
+  }
 }
