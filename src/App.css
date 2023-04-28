@@ -1,7 +1,7 @@
 /* General */
 
 /*message area is 80vw x 90vh for desktop*/
-/* 70vw x 90vh for mobile*/
+
 * {
   box-sizing: border-box;
 }
@@ -74,7 +74,10 @@ div {
 
 /* General Homepage */
 .homepage {
-  margin-left: 20vw;
+}
+
+.main-area {
+  margin-left: 270px;
   margin-bottom: calc(10vh + 10px);
 }
 
@@ -93,14 +96,14 @@ div {
   top: 0;
   left: 0;
   bottom: 0;
-  width: 20vw;
   background-color: #4287f5;
+  width: 270px;
 }
 
 .rooms {
   display: flex;
   flex-direction: column;
-  width: 20vw;
+  width: 270px;
   position: fixed;
   top: 0;
   left: 0;
@@ -114,16 +117,20 @@ div {
   padding: 0;
 }
 
-.room-button,
-.create-room {
+.room-button {
   background-color: #4287f5;
-  border: 1px solid rgba(198, 198, 198, 0.377);
+  border: none;
   font-family: "Segoe UI";
   font-weight: 600;
-  padding-top: 30px;
-  padding-bottom: 30px;
   margin-top: -1px;
   color: white;
+  width: 95%;
+  padding: 20px 0;
+  margin: 3px auto;
+}
+
+.room-button:hover {
+  background-color: #94bdfe;
 }
 
 .rooms-header {
@@ -132,6 +139,10 @@ div {
 }
 
 .create-room {
+  border-bottom: 1px solid rgba(198, 198, 198, 0.377);
+  font-family: "Segoe UI";
+  color: white;
+
   background-color: #3670cc;
   padding: 3.5px 0;
   font-size: 20px;
@@ -142,7 +153,7 @@ div {
   width: 97%;
   border-radius: 10px;
   margin: 8px auto;
-  position: sticky;
+  border: none;
 }
 
 .create-room img {
@@ -203,7 +214,6 @@ div {
 
 /* Messages */
 .message-area {
-  max-width: 80vw;
   margin-left: 10px;
 }
 
@@ -266,7 +276,7 @@ div {
 .message-form {
   position: fixed;
   bottom: 0;
-  width: 80vw;
+  width: calc(100vw - 270px);
   display: flex;
   margin-bottom: 10px;
   z-index: 99999;
@@ -304,39 +314,4 @@ div {
 
 .message-form button:hover {
   cursor: pointer;
-}
-
-@media screen and (max-width: 700px) {
-  .homepage {
-    margin-left: 30vw;
-  }
-
-  .sidebar {
-    width: 30vw;
-  }
-
-  .message-area {
-    max-width: 70vw;
-  }
-
-  .rooms {
-    width: 30vw;
-  }
-
-  .create-room-modal {
-    left: 60%;
-  }
-
-  .message-form {
-    width: 70vw;
-  }
-
-  .message .p,
-  .message .message-text {
-    font-size: 15px;
-  }
-
-  .message-form button {
-    width: 15vw;
-  }
 }

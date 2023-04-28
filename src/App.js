@@ -44,10 +44,12 @@ function HomePage() {
 
   return (
     <div className="homepage">
-      <h1 className="current-room-indicator">{currentRoom}</h1>
-      <hr></hr>
       <SideBar setRoomIdentifier={setCurrentRoom} />
-      <Room identifier={currentRoom} />
+      <div className="main-area">
+        <h1 className="current-room-indicator">{currentRoom}</h1>
+        <hr></hr>
+        <Room identifier={currentRoom} />
+      </div>
     </div>
   );
 }
