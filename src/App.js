@@ -1,5 +1,5 @@
 import "./App.css";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 import firebase from "firebase/compat/app";
 import "firebase/compat/firestore";
@@ -28,10 +28,6 @@ function App() {
 
   return (
     <div className="App">
-      <header>
-        <SignOut />
-      </header>
-
       <section>{user ? <HomePage /> : <SignIn />}</section>
     </div>
   );
@@ -41,20 +37,47 @@ function HomePage() {
   //const query = roomsRef.orderBy("createdAt");
   //const [rooms] = useCollectionData(query);
   const [currentRoom, setCurrentRoom] = useState("Sports"); // fix this
+  const [showSidebarOnSmallScreen, setShowSidebarOnSmallScreen] =
+    useState(false);
+
+  const handleHamburgerClick = () => {
+    setShowSidebarOnSmallScreen(true);
+  };
+
+  const handleSidebarClose = () => {
+    setShowSidebarOnSmallScreen(false);
+  };
 
   return (
     <div className="homepage">
-      <SideBar setRoomIdentifier={setCurrentRoom} />
+      <SideBar
+        setRoomIdentifier={setCurrentRoom}
+        showOnSmallScreen={showSidebarOnSmallScreen}
+      />
+      <div>
+        {showSidebarOnSmallScreen && (
+          <div className="overlay" onClick={handleSidebarClose}></div>
+        )}
+      </div>
+
       <div className="main-area">
-        <h1 className="current-room-indicator">{currentRoom}</h1>
-        <hr></hr>
+        <div className="main-area-header">
+          <SignOut />
+          <div className="main-area-header-aligned">
+            <button className="hamburger-menu" onClick={handleHamburgerClick}>
+              <img src="hamburger-menu.png"></img>
+            </button>
+            <h1 className="current-room-indicator">{currentRoom}</h1>
+          </div>
+          <hr></hr>
+        </div>
         <Room identifier={currentRoom} />
       </div>
     </div>
   );
 }
 
-function SideBar({ setRoomIdentifier }) {
+function SideBar({ setRoomIdentifier, showOnSmallScreen }) {
   const query = roomsRef.orderBy("createdAt");
   const [rooms] = useCollectionData(query, { idField: "id" });
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -89,11 +112,17 @@ function SideBar({ setRoomIdentifier }) {
   };
 
   return (
-    <div className="sidebar">
+    <div
+      className="sidebar"
+      style={
+        showOnSmallScreen || window.innerWidth > 820
+          ? { display: "block" }
+          : { display: "none" }
+      }
+    >
       <div className="rooms">
         <button className="create-room" onClick={openCreateRoomModal}>
           <img src="plus.png"></img>
-
           <p>New room</p>
         </button>
         {rooms &&
@@ -109,27 +138,29 @@ function SideBar({ setRoomIdentifier }) {
       </div>
 
       {isModalOpen && (
-        <form className="create-room-modal" onSubmit={handleNewRoomSubmit}>
-          <div class="room-name">
-            <label>Room Name: </label>
-            <input
-              type="text"
-              value={newRoomName}
-              onChange={(event) => setNewRoomName(event.target.value)}
-            />
-          </div>
-          <div>
-            <button type="submit">Create</button>
-          </div>
-          <div>
-            <button type="button" onClick={handleNewRoomCancel}>
-              Cancel
-            </button>
-          </div>
-          {doesRoomExist && (
-            <p className="room-exist-error">That room already exists</p>
-          )}
-        </form>
+        <div className="create-room-modal-container">
+          <form className="create-room-modal" onSubmit={handleNewRoomSubmit}>
+            <div className="room-name">
+              <label>Room Name: </label>
+              <input
+                type="text"
+                value={newRoomName}
+                onChange={(event) => setNewRoomName(event.target.value)}
+              />
+            </div>
+            <div>
+              <button type="submit">Create</button>
+            </div>
+            <div>
+              <button type="button" onClick={handleNewRoomCancel}>
+                Cancel
+              </button>
+            </div>
+            {doesRoomExist && (
+              <p className="room-exist-error">That room already exists</p>
+            )}
+          </form>
+        </div>
       )}
     </div>
   );
