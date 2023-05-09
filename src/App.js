@@ -53,12 +53,11 @@ function HomePage() {
       <SideBar
         setRoomIdentifier={setCurrentRoom}
         showOnSmallScreen={showSidebarOnSmallScreen}
+        setShowOnSmallScreen={setShowSidebarOnSmallScreen}
       />
-      <div>
-        {showSidebarOnSmallScreen && (
-          <div className="overlay" onClick={handleSidebarClose}></div>
-        )}
-      </div>
+      {showSidebarOnSmallScreen && (
+        <div className="overlay" onClick={handleSidebarClose}></div>
+      )}
 
       <div className="main-area">
         <div className="main-area-header">
@@ -77,7 +76,11 @@ function HomePage() {
   );
 }
 
-function SideBar({ setRoomIdentifier, showOnSmallScreen }) {
+function SideBar({
+  setRoomIdentifier,
+  showOnSmallScreen,
+  setShowOnSmallScreen,
+}) {
   const query = roomsRef.orderBy("createdAt");
   const [rooms] = useCollectionData(query, { idField: "id" });
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -112,14 +115,7 @@ function SideBar({ setRoomIdentifier, showOnSmallScreen }) {
   };
 
   return (
-    <div
-      className="sidebar"
-      style={
-        showOnSmallScreen || window.innerWidth > 820
-          ? { display: "block" }
-          : { display: "none" }
-      }
-    >
+    <div className="sidebar" id={!showOnSmallScreen ? "hidden" : ""}>
       <div className="rooms">
         <button className="create-room" onClick={openCreateRoomModal}>
           <img src="plus.png"></img>
@@ -129,7 +125,10 @@ function SideBar({ setRoomIdentifier, showOnSmallScreen }) {
           rooms.map((room) => (
             <button
               className="room-button"
-              onClick={() => setRoomIdentifier(room.name)}
+              onClick={() => {
+                setRoomIdentifier(room.name);
+                setShowOnSmallScreen(false);
+              }}
               key={room.name}
             >
               {room.name}

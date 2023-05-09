@@ -12,7 +12,6 @@ body {
 
 .App {
   text-align: center;
-  margin: 0 auto;
   position: relative;
   background-color: white;
 }
@@ -27,8 +26,8 @@ body {
   color: white;
 }
 
-.hidden {
-  display: none;
+#hidden {
+  display: block;
 }
 
 .overlay {
@@ -275,7 +274,7 @@ body {
 .message {
   display: flex;
   align-items: flex-end;
-  word-wrap: break-word;
+  margin-bottom: 12px;
 }
 
 .received {
@@ -291,11 +290,13 @@ body {
   color: white;
   background: #0b93f6;
   align-self: flex-end;
+  text-align: right;
 }
 
 .received .message-text {
   color: white;
   background: #e342f5;
+  text-align: left;
 }
 
 .message img {
@@ -305,18 +306,19 @@ body {
   margin: 2px 5px;
 }
 
-.message .p,
-.message .message-text {
-  max-width: 500px;
-  margin-bottom: 12px;
+.message-vertical p {
+  margin: 12px;
+}
+
+.message-text {
+  max-width: 600px;
   line-height: 24px;
   padding: 10px 20px;
   border-radius: 25px;
-  position: relative;
   color: white;
-  text-align: center;
   word-break: break-word;
   hyphens: auto;
+  display: inline-flex;
 }
 
 .received .message-vertical {
@@ -390,7 +392,6 @@ body {
 
   .sidebar {
     width: 70vw;
-    display: none;
     z-index: 999999;
   }
 
@@ -411,5 +412,9 @@ body {
 
   .overlay {
     display: block;
+  }
+
+  #hidden {
+    display: none;
   }
 }
