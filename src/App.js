@@ -56,7 +56,7 @@ function HomePage() {
         setShowOnSmallScreen={setShowSidebarOnSmallScreen}
       />
       {showSidebarOnSmallScreen && (
-        <div className="overlay" onClick={handleSidebarClose}></div>
+        <div className="sidebar-overlay" onClick={handleSidebarClose}></div>
       )}
 
       <div className="main-area">
@@ -138,6 +138,7 @@ function SideBar({
 
       {isModalOpen && (
         <div className="create-room-modal-container">
+          <div className="modal-overlay" onClick={handleNewRoomCancel}></div>
           <form className="create-room-modal" onSubmit={handleNewRoomSubmit}>
             <div className="room-name">
               <label>Room Name: </label>
@@ -150,11 +151,7 @@ function SideBar({
             <div>
               <button type="submit">Create</button>
             </div>
-            <div>
-              <button type="button" onClick={handleNewRoomCancel}>
-                Cancel
-              </button>
-            </div>
+            <div></div>
             {doesRoomExist && (
               <p className="room-exist-error">That room already exists</p>
             )}
@@ -194,13 +191,17 @@ function Room({ identifier }) {
     bottomPos.current.scrollIntoView({ behavior: "smooth" });
   };
 
+  const showMessage = (msg, index, arr) => {
+    if (index != 0 && arr[index - 1].uid == msg.displayName) {
+      console.log("Yuh");
+    }
+    return <Message key={msg.id} message={msg} author={msg.displayName} />;
+  };
+
   return (
     <>
       <div className="message-area">
-        {messages &&
-          messages.map((msg) => (
-            <Message key={msg.id} message={msg} author={msg.displayName} />
-          ))}
+        {messages && messages.map(showMessage)}
         <span ref={bottomPos}></span>
       </div>
 
@@ -232,7 +233,7 @@ function Message(props) {
           <img src={photoURL || "https://i.stack.imgur.com/34AD2.jpg"} />
         </div>
         <div className="message-vertical">
-          <p>{props.author}</p>
+          <p className="message-author">{props.author}</p>
           <p className="message-text">{text}</p>
         </div>
       </div>
