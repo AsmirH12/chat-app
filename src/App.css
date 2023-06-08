@@ -31,6 +31,8 @@ body {
   position: fixed;
   top: 0;
   left: 0;
+  bottom: 0;
+  right: 0;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.6);
@@ -86,6 +88,7 @@ body {
   margin-left: 270px;
   margin-bottom: calc(50px + 15px); /* ****************** */
   width: (100vw - 270px);
+  z-index: 2;
 }
 
 .main-area-header {
@@ -93,7 +96,6 @@ body {
   width: 100%;
   top: 0;
   background-color: white;
-  z-index: 15;
 }
 
 .main-area-header-aligned {
@@ -224,7 +226,7 @@ body {
   flex-direction: column;
   justify-content: space-evenly;
   position: fixed;
-  z-index: 31;
+  z-index: 35;
 }
 
 .create-room-modal button {
@@ -252,6 +254,11 @@ body {
   border-bottom: 4px solid #4287f5;
 }
 
+.room-name {
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
 .room-exist-error {
   color: red;
 }
@@ -260,6 +267,8 @@ body {
   position: fixed;
   top: 0;
   left: 0;
+  right: 0;
+  bottom: 0;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.6);
@@ -270,12 +279,17 @@ body {
 /* Messages */
 .message-area {
   margin-top: 80px;
+  z-index: 2;
 }
 
 .message {
   display: flex;
-  align-items: flex-end;
-  margin-bottom: 12px;
+  align-items: end;
+  margin-bottom: 15px;
+}
+
+.message-text-only {
+  margin-top: -12px;
 }
 
 .received {
@@ -287,10 +301,22 @@ body {
   margin-right: 10px;
 }
 
+.message-text {
+  max-width: 800px;
+  line-height: 24px;
+  padding: 10px 20px;
+  border-radius: 25px;
+  color: white;
+  word-break: break-word;
+  hyphens: auto;
+  display: inline-flex;
+  margin-top: 2px;
+  margin-bottom: 5px;
+}
+
 .sent .message-text {
   color: white;
   background: #0b93f6;
-  align-self: flex-end;
   text-align: right;
   margin-left: 10px;
 }
@@ -305,32 +331,31 @@ body {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  margin: 2px 5px;
+}
+
+.received img {
+  margin-right: 3px;
+}
+
+.sent img {
+  margin-left: 3px;
 }
 
 .message-author {
   margin-bottom: 2px;
 }
 
-.message-text {
-  max-width: 800px;
-  line-height: 24px;
-  padding: 10px 20px;
-  border-radius: 25px;
-  color: white;
-  word-break: break-word;
-  hyphens: auto;
-  display: inline-flex;
-  margin-top: 2px;
+.sent .message-horizontal {
+  flex-direction: row-reverse;
 }
 
-.received .message-vertical {
+/* .received .message-vertical {
   text-align: left;
 }
 
 .sent .message-vertical {
   text-align: right;
-}
+} */
 
 /* Input Bar */
 .message-form {
@@ -338,7 +363,6 @@ body {
   bottom: 0;
   width: calc(100vw - 270px); /********************************/
   display: flex;
-  z-index: 15;
   padding-bottom: 10px;
   padding-top: 2px;
   margin-bottom: 0;
@@ -359,6 +383,10 @@ body {
   margin-right: 10px;
   padding-left: 10px;
   font-family: "Segoe UI";
+}
+
+.message-input:focus {
+  outline: none;
 }
 
 .message-form button {

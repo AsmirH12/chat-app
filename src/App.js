@@ -34,8 +34,6 @@ function App() {
 }
 
 function HomePage() {
-  //const query = roomsRef.orderBy("createdAt");
-  //const [rooms] = useCollectionData(query);
   const [currentRoom, setCurrentRoom] = useState("Sports"); // fix this
   const [showSidebarOnSmallScreen, setShowSidebarOnSmallScreen] =
     useState(false);
@@ -192,10 +190,18 @@ function Room({ identifier }) {
   };
 
   const showMessage = (msg, index, arr) => {
-    if (index != 0 && arr[index - 1].uid == msg.displayName) {
-      console.log("Yuh");
-    }
-    return <Message key={msg.id} message={msg} author={msg.displayName} />;
+    return (
+      <Message
+        key={msg.id}
+        message={msg}
+        author={msg.displayName}
+        isSameAuthorAsAbove={index !== 0 && arr[index - 1].uid === msg.uid}
+        isLastMessage={
+          index === arr.length - 1 ||
+          (index !== arr.length - 1 && arr[index + 1].uid !== msg.uid)
+        }
+      />
+    );
   };
 
   return (
@@ -223,21 +229,71 @@ function Room({ identifier }) {
 
 function Message(props) {
   const { text, uid, photoURL } = props.message;
+  const isSameAuthor = props.isSameAuthorAsAbove;
+  const isLastMessage = props.isLastMessage;
 
   const messageClass = uid === auth.currentUser.uid ? "sent" : "received";
 
   return (
-    <>
-      <div className={`message ${messageClass}`}>
-        <div>
-          <img src={photoURL || "https://i.stack.imgur.com/34AD2.jpg"} />
-        </div>
-        <div className="message-vertical">
-          <p className="message-author">{props.author}</p>
+    <div
+      className={`message ${messageClass} ${
+        isSameAuthor ? "message-text-only" : ""
+      }`}
+    >
+      {!isSameAuthor && isLastMessage && (
+        <>
+          <div>
+            <p className="message-author">{props.author}</p>
+            <p className="message-text">{text}</p>
+          </div>
+          <div>
+            <img src={photoURL || "https://i.stack.imgur.com/34AD2.jpg"} />
+          </div>
+        </>
+      )}
+
+      {isSameAuthor && isLastMessage && (
+        <>
+          <div>
+            <img src={photoURL || "https://i.stack.imgur.com/34AD2.jpg"} />
+          </div>
+          <div>
+            <p className="message-text">{text}</p>
+          </div>
+        </>
+      )}
+
+      {isSameAuthor && !isLastMessage && (
+        <>
+          <div>
+            <p className="message-text">{text}</p>
+          </div>
+        </>
+      )}
+
+      {!isSameAuthor && !isLastMessage && (
+        <>
+          <div>
+            <p className="message-author">{props.author}</p>
+            <p className="message-text">{text}</p>
+          </div>
+        </>
+      )}
+
+      {/* {isSameAuthor ? (
           <p className="message-text">{text}</p>
-        </div>
-      </div>
-    </>
+        ) : (
+          <>
+            <div className="message-header">
+              <img src={photoURL || "https://i.stack.imgur.com/34AD2.jpg"} />
+              <p className="message-author">{props.author}</p>
+            </div>
+            <div>
+              <p className="message-text">{text}</p>
+            </div>
+          </>
+        )} */}
+    </div>
   );
 }
 
