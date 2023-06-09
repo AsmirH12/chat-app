@@ -190,18 +190,25 @@ function Room({ identifier }) {
   };
 
   const showMessage = (msg, index, arr) => {
-    return (
-      <Message
-        key={msg.id}
-        message={msg}
-        author={msg.displayName}
-        isSameAuthorAsAbove={index !== 0 && arr[index - 1].uid === msg.uid}
-        isLastMessage={
-          index === arr.length - 1 ||
-          (index !== arr.length - 1 && arr[index + 1].uid !== msg.uid)
-        }
-      />
-    );
+    if (index != 0 && arr[index - 1].uid == msg.uid) {
+      return (
+        <Message
+          key={msg.id}
+          message={msg}
+          author={msg.displayName}
+          isSameAuthorAsAbove={true}
+        />
+      );
+    } else {
+      return (
+        <Message
+          key={msg.id}
+          message={msg}
+          author={msg.displayName}
+          isSameAuthorAsAbove={false}
+        />
+      );
+    }
   };
 
   return (
@@ -230,60 +237,20 @@ function Room({ identifier }) {
 function Message(props) {
   const { text, uid, photoURL } = props.message;
   const isSameAuthor = props.isSameAuthorAsAbove;
-  const isLastMessage = props.isLastMessage;
 
   const messageClass = uid === auth.currentUser.uid ? "sent" : "received";
 
   return (
-    <div
-      className={`message ${messageClass} ${
-        isSameAuthor ? "message-text-only" : ""
-      }`}
-    >
-      {!isSameAuthor && isLastMessage && (
-        <>
-          <div>
-            <p className="message-author">{props.author}</p>
-            <p className="message-text">{text}</p>
-          </div>
-          <div>
-            <img src={photoURL || "https://i.stack.imgur.com/34AD2.jpg"} />
-          </div>
-        </>
-      )}
-
-      {isSameAuthor && isLastMessage && (
-        <>
-          <div>
-            <img src={photoURL || "https://i.stack.imgur.com/34AD2.jpg"} />
-          </div>
-          <div>
-            <p className="message-text">{text}</p>
-          </div>
-        </>
-      )}
-
-      {isSameAuthor && !isLastMessage && (
-        <>
-          <div>
-            <p className="message-text">{text}</p>
-          </div>
-        </>
-      )}
-
-      {!isSameAuthor && !isLastMessage && (
-        <>
-          <div>
-            <p className="message-author">{props.author}</p>
-            <p className="message-text">{text}</p>
-          </div>
-        </>
-      )}
-
-      {/* {isSameAuthor ? (
+    <>
+      <div
+        className={`message ${messageClass} ${
+          isSameAuthor ? "message-text-only" : ""
+        }`}
+      >
+        {isSameAuthor ? (
           <p className="message-text">{text}</p>
         ) : (
-          <>
+          <div align={messageClass === "sent" ? "right" : "left"}>
             <div className="message-header">
               <img src={photoURL || "https://i.stack.imgur.com/34AD2.jpg"} />
               <p className="message-author">{props.author}</p>
@@ -291,9 +258,10 @@ function Message(props) {
             <div>
               <p className="message-text">{text}</p>
             </div>
-          </>
-        )} */}
-    </div>
+          </div>
+        )}
+      </div>
+    </>
   );
 }
 

@@ -226,7 +226,7 @@ body {
   flex-direction: column;
   justify-content: space-evenly;
   position: fixed;
-  z-index: 35;
+  z-index: 31;
 }
 
 .create-room-modal button {
@@ -284,12 +284,11 @@ body {
 
 .message {
   display: flex;
-  align-items: end;
   margin-bottom: 15px;
 }
 
 .message-text-only {
-  margin-top: -12px;
+  margin-top: -15px;
 }
 
 .received {
@@ -317,8 +316,9 @@ body {
 .sent .message-text {
   color: white;
   background: #0b93f6;
-  text-align: right;
-  margin-left: 10px;
+}
+
+.asmir {
 }
 
 .received .message-text {
@@ -341,11 +341,13 @@ body {
   margin-left: 3px;
 }
 
-.message-author {
+.message-header {
+  display: flex;
+  align-items: center;
   margin-bottom: 2px;
 }
 
-.sent .message-horizontal {
+.sent .message-header {
   flex-direction: row-reverse;
 }
 
