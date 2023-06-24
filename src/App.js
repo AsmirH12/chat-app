@@ -26,11 +26,7 @@ const roomsRef = firestore.collection("rooms");
 function App() {
   const [user] = useAuthState(auth);
 
-  return (
-    <div className="App">
-      <section>{user ? <HomePage /> : <SignIn />}</section>
-    </div>
-  );
+  return <div className="App">{user ? <HomePage /> : <SignIn />}</div>;
 }
 
 function HomePage() {
